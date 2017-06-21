@@ -8,13 +8,13 @@ module.exports = mergeConfig(baseConfig, {
     new webpack.HotModuleReplacementPlugin()
   ],
   output: {
-    path: path.resolve(__dirname, '../example'),
+    path: path.resolve(__dirname, '../docs'),
     filename: 'mark.js',
     library: 'Mark',
     libraryTarget: 'umd'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, '../example'),
+    contentBase: path.resolve(__dirname, '../docs'),
     port: 3000,
     hot: true
   }
