@@ -6,6 +6,8 @@
 
 [https://gssify.github.io/markjs/](https://gssify.github.io/markjs/)
 
+示例中添加标签信息按键：`CTRL` + `S`
+
 ## Installation
 点击此处另外存: [Markjs](https://raw.githubusercontent.com/gssify/markjs/master/dist/mark.js)
 
