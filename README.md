@@ -8,7 +8,7 @@
 
 示例中添加标签信息按键：`CTRL` + `S`
 
-删除已有标注：双击标注
+删除已有标注：`双击标注`
 
 ## Installation
 点击此处另外存: [Markjs](https://raw.githubusercontent.com/gssify/markjs/master/dist/mark.js)
