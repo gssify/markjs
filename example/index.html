@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="draw"></div>
+  <script src="./mark.js"></script>
+  <script>
+  new Mark({
+    // 标记容器
+    id: 'draw',
+
+    // 需要标记的图片地址
+    url: './mark.jpg',
+
+    // 在标注框删除前增加确认逻辑
+    // callback为逻辑结束必须执行的函数
+    // callback只有一个参数boolean值，表示是否删除
+    beforeDelete: function (callback) {
+      callback(!!window.confirm('确定删除吗?'))
+    },
+
+    // 在标注框生成前增加确认逻辑，同时可以增加一下格外的业务数据
+    // callback为逻辑结束必须执行的函数
+    // callback第一个参数为boolean值，表示处理结果
+    // callback第二个参数为额外的业务数据
+    beforeAdd: function (callback) {
+      const result = window.prompt('可以打标记了')
+      callback(!!result, {tag: result})
+    },
+
+    // 格式化tag数据，需要将业务字段转成 text
+    dataFormat: function (mark) {
+      if (!mark.data.tag) return
+      return {
+        text: mark.data.tag
+      }
+    },
+
+    // 初始化的标记数据，格式必须严格遵守
+    marks: [
+      {
+        points: [[192,106], [381,106],[381,238],[192,238]],
+        data: {
+          tag: '初始化标签'
+        }
+      }
+    ]
+  })
+
+  // 如果需要重新初始化，请先销毁当前实例
+  // instance.destroy()
+  </script>
+</body>
+</html>
