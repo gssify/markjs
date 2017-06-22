@@ -1,6 +1,6 @@
 {
   "name": "markjs",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A plugin for image which can support mark by polygon based svgjs",
   "main": "index.js",
   "repository": "git@github.com:gssify/markjs.git",

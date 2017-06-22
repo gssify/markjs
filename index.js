@@ -163,8 +163,10 @@ class Mark {
     }.bind(this)
 
     if (this._resize) {
-      instance.remove()
-      this.reset()
+      if (instance === this._polygon) {
+        instance.remove()
+        this.reset()
+      }
     } else {
       this.beforeDelete(result => {
         if (result) removeMark()
