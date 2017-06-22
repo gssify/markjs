@@ -251,7 +251,7 @@ var Mark = function () {
       }.bind(this);
 
       if (this._resize) {
-        removeMark();
+        instance.remove();
         this.reset();
       } else {
         this.beforeDelete(function (result) {

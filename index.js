@@ -163,7 +163,7 @@ class Mark {
     }.bind(this)
 
     if (this._resize) {
-      removeMark()
+      instance.remove()
       this.reset()
     } else {
       this.beforeDelete(result => {
