@@ -86,8 +86,8 @@ __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var LINE_COLOR = '#000';
-var MAIN_COLOR = '#333';
+var LINE_COLOR = '#f00';
+var MAIN_COLOR = '#f00';
 var ACTION_ADD = 'add';
 var ACTION_RESIZE = 'resize';
 var ACTION_DELETE = 'delete';
@@ -191,7 +191,7 @@ var Mark = function () {
     key: 'paintPolygon',
     value: function paintPolygon(points, action) {
       var polygon = this.draw.polygon(points);
-      polygon.data('action', action).stroke(MAIN_COLOR).fill({ color: MAIN_COLOR, opacity: 0.1 }).attr('stroke-dasharray', '2');
+      polygon.data('action', action).stroke(LINE_COLOR).fill({ color: MAIN_COLOR, opacity: 0.05 }).attr('stroke-dasharray', '2');
       return polygon;
     }
   }, {
@@ -207,7 +207,8 @@ var Mark = function () {
         opacity: 0.8
       }).style('user-select:none').font({
         family: '宋体',
-        size: 12
+        size: 14,
+        weight: 'bold'
       });
 
       var _svgText$bbox = svgText.bbox(),

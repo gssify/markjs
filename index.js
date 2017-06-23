@@ -1,7 +1,7 @@
 import 'svg.js'
 
-const LINE_COLOR = '#000'
-const MAIN_COLOR = '#333'
+const LINE_COLOR = '#f00'
+const MAIN_COLOR = '#f00'
 const ACTION_ADD = 'add'
 const ACTION_RESIZE = 'resize'
 const ACTION_DELETE = 'delete'
@@ -99,8 +99,8 @@ class Mark {
     const polygon = this.draw.polygon(points)
     polygon
       .data('action', action)
-      .stroke(MAIN_COLOR)
-      .fill({color: MAIN_COLOR, opacity: 0.1})
+      .stroke(LINE_COLOR)
+      .fill({color: MAIN_COLOR, opacity: 0.05})
       .attr('stroke-dasharray', '2')
     return polygon
   }
@@ -120,7 +120,8 @@ class Mark {
       .style('user-select:none')
       .font({
         family: '宋体',
-        size: 12
+        size: 14,
+        weight: 'bold'
       })
 
     const {w, h} = svgText.bbox()
