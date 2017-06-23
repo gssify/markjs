@@ -148,18 +148,16 @@ class Mark {
   }
 
   deleteMark (instance) {
-    const removeMark = function () {
-      this.marks = this.marks.filter(mark => {
-        if (mark.__instance === instance) {
-          mark.__instance.remove()
-          if (mark.__text) {
-            mark.__text.__background.remove()
-            mark.__text.remove()
-          }
-          return false
-        }
-        return true
-      })
+    const getCurrentMark = function (ins) {
+      return this.marks.find(mark => mark.__instance === ins)
+    }.bind(this)
+    const removeMark = function (currentMark) {
+      this.marks = this.marks.filter(mark => mark !== currentMark)
+      currentMark.__instance.remove()
+      if (currentMark.__text) {
+        currentMark.__text.__background.remove()
+        currentMark.__text.remove()
+      }
     }.bind(this)
 
     if (this._resize) {
@@ -168,8 +166,9 @@ class Mark {
         this.reset()
       }
     } else {
-      this.beforeDelete(result => {
-        if (result) removeMark()
+      const currentMark = getCurrentMark(instance)
+      this.beforeDelete(currentMark, result => {
+        if (result) removeMark(currentMark)
       })
     }
   }
@@ -204,15 +203,13 @@ class Mark {
     if (!this._resize) return
     if (evt.keyCode === 83 && evt.ctrlKey) {
       evt.preventDefault()
-      this.beforeAdd((status, data) => {
-        if (!status) return
-
-        let mark = {
-          data,
+      let mark = {
           points: this._polygon.array().value,
           __instance: this._polygon
-        }
-
+      }
+      this.beforeAdd(mark, (status, data) => {
+        if (!status) return
+        mark.data = data
         Object.assign(mark, this.dataFormat(mark))
 
         if (mark.text) {
@@ -378,15 +375,16 @@ class Mark {
 module.exports = Mark
 
 function getCentroid(points) {
+  // @TODO 需要确保points中的坐标点是Number
   let totalArea = 0
   let totalX = 0
   let totalY = 0
   for (let i = 0, l = points.length; i < l; i++) {
     let a = points[(l-i)%l]
     let b = points[l-1-i]
-    let area = 0.5 * (a[0] * b[1] - b[0] * a[1])
-    let x = (a[0] + b[0]) / 3
-    let y = (a[1] + b[1]) / 3
+    let area = 0.5 * ((+a[0]) * (+b[1]) - (+b[0]) * (+a[1]))
+    let x = ((+a[0]) + (+b[0])) / 3
+    let y = ((+a[1]) + (+b[1])) / 3
     totalArea += area
     totalX += area * x
     totalY += area * y

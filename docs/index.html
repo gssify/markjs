@@ -20,15 +20,15 @@
     // 在标注框删除前增加确认逻辑
     // callback为逻辑结束必须执行的函数
     // callback只有一个参数boolean值，表示是否删除
-    beforeDelete: function (callback) {
-      callback(!!window.confirm('确定删除吗?'))
+    beforeDelete: function (mark, callback) {
+      callback(!!window.confirm('确定删除标记【' + mark.text + '】吗?'))
     },
 
     // 在标注框生成前增加确认逻辑，同时可以增加一下格外的业务数据
     // callback为逻辑结束必须执行的函数
     // callback第一个参数为boolean值，表示处理结果
     // callback第二个参数为额外的业务数据
-    beforeAdd: function (callback) {
+    beforeAdd: function (mark, callback) {
       const result = window.prompt('可以打标记了')
       callback(!!result, {tag: result})
     },
@@ -44,7 +44,7 @@
     // 初始化的标记数据，格式必须严格遵守
     marks: [
       {
-        points: [[192,106], [381,106],[381,238],[192,238]],
+        points: [['192','106'], [381,106],[381,238],[192,238]],
         data: {
           tag: '初始化标签'
         }

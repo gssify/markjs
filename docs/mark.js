@@ -236,18 +236,20 @@ var Mark = function () {
   }, {
     key: 'deleteMark',
     value: function deleteMark(instance) {
-      var removeMark = function () {
-        this.marks = this.marks.filter(function (mark) {
-          if (mark.__instance === instance) {
-            mark.__instance.remove();
-            if (mark.__text) {
-              mark.__text.__background.remove();
-              mark.__text.remove();
-            }
-            return false;
-          }
-          return true;
+      var getCurrentMark = function (ins) {
+        return this.marks.find(function (mark) {
+          return mark.__instance === ins;
         });
+      }.bind(this);
+      var removeMark = function (currentMark) {
+        this.marks = this.marks.filter(function (mark) {
+          return mark !== currentMark;
+        });
+        currentMark.__instance.remove();
+        if (currentMark.__text) {
+          currentMark.__text.__background.remove();
+          currentMark.__text.remove();
+        }
       }.bind(this);
 
       if (this._resize) {
@@ -256,8 +258,9 @@ var Mark = function () {
           this.reset();
         }
       } else {
-        this.beforeDelete(function (result) {
-          if (result) removeMark();
+        var currentMark = getCurrentMark(instance);
+        this.beforeDelete(currentMark, function (result) {
+          if (result) removeMark(currentMark);
         });
       }
     }
@@ -306,15 +309,13 @@ var Mark = function () {
       if (!this._resize) return;
       if (evt.keyCode === 83 && evt.ctrlKey) {
         evt.preventDefault();
-        this.beforeAdd(function (status, data) {
+        var mark = {
+          points: this._polygon.array().value,
+          __instance: this._polygon
+        };
+        this.beforeAdd(mark, function (status, data) {
           if (!status) return;
-
-          var mark = {
-            data: data,
-            points: _this4._polygon.array().value,
-            __instance: _this4._polygon
-          };
-
+          mark.data = data;
           Object.assign(mark, _this4.dataFormat(mark));
 
           if (mark.text) {
@@ -492,15 +493,16 @@ var Mark = function () {
 module.exports = Mark;
 
 function getCentroid(points) {
+  // @TODO 需要确保points中的坐标点是Number
   var totalArea = 0;
   var totalX = 0;
   var totalY = 0;
   for (var i = 0, l = points.length; i < l; i++) {
     var a = points[(l - i) % l];
     var b = points[l - 1 - i];
-    var area = 0.5 * (a[0] * b[1] - b[0] * a[1]);
-    var x = (a[0] + b[0]) / 3;
-    var y = (a[1] + b[1]) / 3;
+    var area = 0.5 * (+a[0] * +b[1] - +b[0] * +a[1]);
+    var x = (+a[0] + +b[0]) / 3;
+    var y = (+a[1] + +b[1]) / 3;
     totalArea += area;
     totalX += area * x;
     totalY += area * y;
