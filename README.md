@@ -1,6 +1,6 @@
 # Markjs ![issues](https://img.shields.io/github/issues/gssify/markjs.svg) ![stars](https://img.shields.io/github/stars/gssify/markjs.svg) ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
-基于[SVGJS](http://svgjs.com)的图像标注插件，支持不规则四边形标注，自定义字段标签. 
+基于[SVGJS](http://svgjs.com)的图像标注插件，支持不规则四边形标注，自定义字段标签.
 
 # Demo
 
@@ -31,15 +31,15 @@ new Mark({
     // 在标注框删除前增加确认逻辑
     // callback为逻辑结束必须执行的函数
     // callback只有一个参数boolean值，表示是否删除
-    beforeDelete: function (callback) {
-      callback(!!window.confirm('确定删除吗?'))
+    beforeDelete: function (mark, callback) {
+      callback(!!window.confirm('确定删除标记【' + mark.text + '】吗?'))
     },
 
     // 在标注框生成前增加确认逻辑，同时可以增加一下格外的业务数据
     // callback为逻辑结束必须执行的函数
     // callback第一个参数为boolean值，表示处理结果
     // callback第二个参数为额外的业务数据
-    beforeAdd: function (callback) {
+    beforeAdd: function (mark, callback) {
       const result = window.prompt('可以打标记了')
       callback(!!result, {tag: result})
     },
